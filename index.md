@@ -94,7 +94,16 @@ Now we need to create the directories that will be mounted inside of /mnt and mo
 # mount -t btrfs -o subvol=@snapshots /mnt/.snapshots
 # mount -o rw,noatime /dev/sda2 /mnt/boot
 ```
-
+It is now a good time to install the base system plus a few extra packages. First, define a few variables. Then, run xbps-install.
+```
+# REPO=https://alpha.us.repo.voidlinux.org/current
+# ARCH=i686
+# XBPS_ARCH=$ARCH xbps-install -S -r /mnt -R "$REPO" base-system btrfs-progs vim grub
+```
+Once this has finished we have the basic FHS directory structure to mount the psuedo-filesystems into
+```
+# for dir in dev proc sys run; do mount --rbind /$dir /mnt/$dir; mount --make-rslave /mnt/$dir; done
+```
 ## References
 1. https://btrfs.wiki.kernel.org/index.php/Main_Page
 2. https://btrfs.wiki.kernel.org/index.php/Getting_started
