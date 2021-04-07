@@ -91,7 +91,7 @@ Now we need to create the directories that will be mounted inside of /mnt and mo
 # mkdir /mnt/{boot,home,.snapshots}
 # mount -t btrfs -o subvol=@ /mnt
 # mount -t btrfs -o subvol=@home /mnt/home
-# mount -t btrfs -o subvol=@snapshots /mnt/,snapshots
+# mount -t btrfs -o subvol=@snapshots /mnt/.snapshots
 # mount -o rw,noatime /dev/sda2 /mnt/boot
 ```
 
