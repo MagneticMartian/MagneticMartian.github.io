@@ -10,3 +10,11 @@ The B-tree file system (btrfs), or more popularly "Butter/Better fs" is a next g
 
 ## Installing Btrfs on an x86 MBR System
 The following instuctions were implemented on a Panisonic Presario V5000 with the Mobile AMD Sempron 3000+ cpu.
+
+## References
+1. https://btrfs.wiki.kernel.org/index.php/Main_Page
+2. https://btrfs.wiki.kernel.org/index.php/Getting_started
+3. https://wiki.archlinux.org/index.php/Btrfs
+4. https://btrfs.wiki.kernel.org/index.php/SysadminGuide
+5. https://gist.github.com/gbrlsnchs/9c9dc55cd0beb26e141ee3ea59f26e21
+6. https://docs.voidlinux.org/installation/guides/chroot.html
