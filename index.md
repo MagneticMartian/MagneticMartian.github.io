@@ -104,6 +104,51 @@ Once this has finished we have the basic FHS directory structure to mount the ps
 ```
 # for dir in dev proc sys run; do mount --rbind /$dir /mnt/$dir; mount --make-rslave /mnt/$dir; done
 ```
+Before we can chroot we need to copy the DNS config over.
+```
+# cp /etc/resolv.conf /mnt/etc
+```
+We are now ready to chroot and set an options variable to make life a little easier.
+```
+# PS1='(chroot) # ' chroot /mnt /bin/bash
+(chroot) # BTRFS_OPTS="rw,noatime,compress=lzo,space_cache"
+```
+Next, edit the files /etc/hostname and /etc/default/libc-locales to reflect the desired name and language configuration of the system.
+```
+(chroot) # vim /etc/hostname
+(chroot) # vim /etc/default/libc-locales
+```
+Set the root password
+```
+(chroot) # passwd
+```
+Now comes the most tedious part. Editing the fstab file. We are going to use variables and a here document to do this editting.
+```
+(chroot) # BOOT_UUID=$(blkid -s UUID -o value /dev/sda1)
+(chroot) # SWAP_UUID=$(blkid -s UUID -o value /dev/sda2)
+(chroot) # ROOT_UUID=$(blkid -s UUID -o value /dev/sda3)
+(chroot) # cat << EOF > /etc/fstab
+> UUID=$BOOT_UUID /boot ext4 defaults,noatime 0 2
+> UUID=$SWAP_UUID swap swap rw,noatime,discard 0 0
+> UUID=$ROOT_UUID / btrfs $BTRFS_OPTS,subvol=@ 0 1
+> UUID=$ROOT_UUID /home btrfs $BTRFS_OPTS,subvol=@home 0 2
+> UUID=$ROOT_UUID /.snapshots btrfs $BTRFS_OPTS,subvol=@snapshots 0 2
+> tmpfs /tmp tmpfs defaults,nosuid,nodev 0 0
+> EOF
+```
+To help streamline the initramfs we will do the following
+```
+(chroot) # echo hostonly=yes >> /etc/dracut.conf
+```
+Now it is time to install grub on the system. Remember that we installed the package earlier in the base install step.
+```
+(chroot) # grub-install /dev/sda
+```
+As long as this returns a message related to no errors being found, we are ready to reconfigure the system.
+```
+(chroot) # xbps-reconfigure -fa
+```
+If this finishes without error it is time to exit, poweroff, and remove the installation media. Once, these steps are done reboot the system and hopefully in a short time we are met with a login screen. Login as root and do the various post install stuff.
 ## References
 1. https://btrfs.wiki.kernel.org/index.php/Main_Page
 2. https://btrfs.wiki.kernel.org/index.php/Getting_started
