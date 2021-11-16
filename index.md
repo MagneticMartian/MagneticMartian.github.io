@@ -92,7 +92,7 @@ Now we need to create the directories that will be mounted inside of /mnt and mo
 # mkdir /mnt/{boot,home,.snapshots}
 # mount -t btrfs -o subvol=@home /dev/sda3 /mnt/home
 # mount -t btrfs -o subvol=@snapshots /dev/sda3 /mnt/.snapshots
-# mount -o rw,noatime /dev/sda2 /mnt/boot
+# mount -o rw,noatime /dev/sda1 /mnt/boot
 ```
 It is now a good time to install the base system plus a few extra packages. First, define a few variables. Then, run xbps-install.
 ```
