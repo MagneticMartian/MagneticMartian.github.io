@@ -88,10 +88,10 @@ The next step is to mount the btrfs partition and create the desired subvolumes.
 ```
 Now we need to create the directories that will be mounted inside of /mnt and mount them:
 ```
+# mount -t btrfs -o subvol=@ /dev/sda3 /mnt
 # mkdir /mnt/{boot,home,.snapshots}
-# mount -t btrfs -o subvol=@ /mnt
-# mount -t btrfs -o subvol=@home /mnt/home
-# mount -t btrfs -o subvol=@snapshots /mnt/.snapshots
+# mount -t btrfs -o subvol=@home /dev/sda3 /mnt/home
+# mount -t btrfs -o subvol=@snapshots /dev/sda3 /mnt/.snapshots
 # mount -o rw,noatime /dev/sda2 /mnt/boot
 ```
 It is now a good time to install the base system plus a few extra packages. First, define a few variables. Then, run xbps-install.
