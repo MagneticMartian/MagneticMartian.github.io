@@ -96,7 +96,7 @@ Now we need to create the directories that will be mounted inside of /mnt and mo
 ```
 It is now a good time to install the base system plus a few extra packages. First, define a few variables. Then, run xbps-install.
 ```
-# REPO=https://alpha.us.repo.voidlinux.org/current
+# REPO=https://repo-us.voidlinux.org/current
 # ARCH=i686
 # XBPS_ARCH=$ARCH xbps-install -S -r /mnt -R "$REPO" base-system btrfs-progs vim grub
 ```
